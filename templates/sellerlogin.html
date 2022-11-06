@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>	Seller Log in</title>
+<link rel="stylesheet" href={{url_for('static', filename='css/seller.css')}} />
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<h2>Seller Login</h2>
+		</div>
+		<form id="form" class="form" action="/sellerlogin" method="POST">
+			<div class="form-control">
+				<label for="username">Email</label>
+				<input type="text" name="email">
+			</div>
+			<div class="form-control">
+				<label for="username">Password</label>
+				<input type="password" name="password">
+			</div>
+			<button>Submit</button>
+			<a href="/sellerregisterationForm">Register here</a><br>
+	<a href="/loginForm">Log in as a customer</a>
+		</form>
+		</div>
+</body>
+</html>
