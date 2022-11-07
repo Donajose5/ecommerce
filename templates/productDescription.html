@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Product Description</title>
+<link rel="stylesheet" href={{url_for('static', filename='css/productDescription.css')}} />
+<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css')}} />
+</head>
+<body>
+<div id="title">
+	<a href="/">
+		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+	</a>
+	<form>
+		<input id="searchBox" type="text" name="searchQuery">
+		<input id="searchButton" type="submit" value="Search">
+	</form>
+
+	{% if not loggedIn %}
+	<div id="signInButton">
+		<a class="link" href="/loginForm">Sign In</a>
+	</div>
+	{% else %}
+	<div class="dropdown">
+		<button class="dropbtn">Hello, <br>{{firstName}}</button>
+		<div class="dropdown-content">
+			<a href="/account/orders">Your orders</a>
+			<a href="/account/profile">Your profile</a>
+			<hr>
+			<a href="/logout">Sign Out</a>
+		</div>
+	</div>
+	{% endif %}
+	<div id="kart">
+		<a class="link" href="/cart">
+			<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
+			CART {{noOfItems}}
+		</a>
+	</div>
+</div>
+<div id="display">
+	<div id="productName">
+		<h1>{{data[1]}}</h1>
+	</div>
+	<div>
+		<img src={{url_for('static', filename='uploads/'+data[4]) }} id="productImage"/>
+	</div>
+	<div id="productDescription">
+		<h2>Details</h2>
+		<table id="descriptionTable">
+			<tr>
+				<td>Name</td>
+				<td>{{data[1]}}</td>
+			</tr>
+			<tr>
+				<td>Price</td>
+				<td>${{data[2]}}</td>
+			</tr>
+			<tr>
+				<td>Stock</td>
+				<td>{{data[5]}}</td>
+			</tr>
+			<tr>
+				<td>Rating</td>
+				<td>{{avgR}}</td>
+			</tr>
+		</table>
+		<h2>Description</h2>
+		<p>{{data[3]}}</p>
+	</div>
+	<div id="addToCart">
+		<a href="/addToCart?productId={{request.args.get('productId')}}">Add to Cart</a>
+	</div>
+	<form class="reviewForm" action="/reviewAdd?productId={{request.args.get('productId')}}" method="post">
+		<h2>Add Reviews</h2>
+		<div class="rate">
+	    <input type="radio" id="star5" name="rate" value="5" />
+	    <label for="star5" title="text">5 stars</label>
+	    <input type="radio" id="star4" name="rate" value="4" />
+	    <label for="star4" title="text">4 stars</label>
+	    <input type="radio" id="star3" name="rate" value="3" />
+	    <label for="star3" title="text">3 stars</label>
+	    <input type="radio" id="star2" name="rate" value="2" />
+	    <label for="star2" title="text">2 stars</label>
+	    <input type="radio" id="star1" name="rate" value="1" />
+	    <label for="star1" title="text">1 star</label>
+	  </div>
+		<div class="comments">
+			<p><label for="review">Review of {{data[1]}}</label></p>
+  <textarea id="review" name="reviewCust" rows="4" cols="50"></textarea>
+  <br>
+		</div>
+		  <input type="submit" value="Submit">
+	</form>
+	<div class="displayReview">
+		<h3>Reviews</h3>
+		<table class="tableM">
+			<tr id="productName">
+				{% for row in rdata %}
+				<td class='itemR' style="border-bottom-style: hidden;">
+					UserName: {{row[4]}}
+				</td>
+				{% endfor %}
+			</tr>
+			<tr id="productName">
+				{% for row in rdata %}
+				<td class='itemR' style="border-bottom-style: hidden; border-top-style: hidden;">
+					Comments: {{row[3]}}
+				</td>
+				{% endfor %}
+			</tr>
+			<tr id="productName">
+				{% for row in rdata %}
+				<td class='itemR' style="border-top-style: hidden;">
+					Ratings: {{row[2]}}
+				</td>
+				{% endfor %}
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+</html>
